@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour
-{
+{    
     public bool IsDragging;
     public Vector3 LastPosition;
 
@@ -15,13 +16,23 @@ public class Draggable : MonoBehaviour
 
     public string SlotName;
 
+    public bool isTrue = false;
+
+    public static int _numberOfAnswers = 0;
+
     void Start()
     {
         _collider = GetComponent<Collider2D>();
         _dragController = GetComponent<DragController>();
+        _numberOfAnswers = 0;
+
     }
     private void Update()
     {
+        if(isTrue)
+        {
+            _collider.enabled = false;
+        }
     }
     void FixedUpdate()
     {
@@ -54,6 +65,9 @@ public class Draggable : MonoBehaviour
         if (collision.CompareTag("DropValid") && collision.name == SlotName)
         {
             _movementDestination = collision.transform.position;
+            isTrue = true;
+            _numberOfAnswers += 1;
+
         }
         else if (collision.CompareTag("DropInvalid"))
         {
